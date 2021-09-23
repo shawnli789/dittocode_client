@@ -1,0 +1,28 @@
+// 
+// user-variables.scss
+// Use this to overwrite Bootstrap and theme variables
+//
+$container-max-widths: (
+  sm: 540px,
+  md: 720px,
+  lg: 960px,
+  xl: 1140px,
+  xxl: 1320px
+);
+
+// Example of a variable override to change theme's background color
+// Remove the "//" to comment it in and see it in action!
+// $body-bg: #12263F;
+
+
+
+
+// path
+
+$path-to-fonts: '../../fonts' !default;
+$path-to-img: '/img' !default;
+
+
+$pagination-transition: color 0s ease-in-out, background-color 0s ease-in-out, border-color 0s ease-in-out, box-shadow 0s ease-in-out;
+
+

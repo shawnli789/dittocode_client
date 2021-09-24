@@ -11,7 +11,7 @@ import { useState, useEffect } from 'react';
 
 function Navbar() {
   const authCtx = useContext(AuthContext);
-  const {getUser} = useAxiosInstance();
+  const { getUser } = useAxiosInstance();
   const [user, setUser] = useState('');
   useEffect(() => {
     getUser().then((response) => {
@@ -33,7 +33,7 @@ function Navbar() {
             <DropdownLink>{user}</DropdownLink>
             <div className="dropdown-menu dropdown-menu-end">
               <Link to="/sign-in" className="dropdown-item" onClick={authCtx.logout}>
-                Logout <span className="fe fe-log-out float-end"></span>
+                Sign Out <span className="fe fe-log-out float-end"></span>
               </Link>
             </div>
           </div>

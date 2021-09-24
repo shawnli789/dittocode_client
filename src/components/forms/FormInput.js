@@ -16,7 +16,9 @@ function FormInput(props) {
         placeholder={props.placeholder}
         onChange={props.onChange}
         onBlur={props.onBlur}
-        value={props.value} />
+        value={props.value} 
+        placeholder={props.placeholder} 
+        />
         {errorElements}
     </div>
   );

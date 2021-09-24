@@ -220,23 +220,41 @@ export const getDailyPracticesNumber = (practices, numberOfDays) => {
 // For example, [10, 20, 15] means: easy: 10, medium: 20, hard: 15
 export const getProblemNumbersByDifficulty = (problemsLatestPractices) => {
   if (!problemsLatestPractices) return {}
-  const values = [0, 0, 0];
-  const labels = ['easy', 'medium', 'hard']
+  const values = [];
+  const labels = [];
+  const map = {};
   for (const p of problemsLatestPractices) {
     switch (p.difficulty) {
-      case labels[0]:
-        values[0]++;
+      case 'easy':
+        if (map['easy']) {
+          map['easy']++;
+        } else {
+          map['easy'] = 1;
+        }
         break;
-      case labels[1]:
-        values[1]++;
+      case 'medium':
+        if (map['medium']) {
+          map['medium']++;
+        } else {
+          map['medium'] = 1;
+        }
         break;
-      case labels[2]:
-        values[2]++;
+      case 'hard':
+        if (map['hard']) {
+          map['hard']++;
+        } else {
+          map['hard'] = 1;
+        }
         break;
       default:
         break;
     }
   }
+  for (const key in map) {
+    values.push(map[key]);
+    labels.push(key);
+  }
+
   return {
     values: values,
     labels: labels

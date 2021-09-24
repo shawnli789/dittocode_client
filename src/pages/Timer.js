@@ -252,8 +252,8 @@ function Timer(props) {
           </div>
           <div className="col">
             <button
-              className='btn btn-outline-light'
-              style={{ marginTop: "70px", marginLeft: '80px' }}
+              className='btn btn-outline-light btn-lg py-3 px-5 fs-2'
+              style={{ marginTop: "60px", marginLeft: '80px' }}
               onClick={completedHandler}
             >
               Completed

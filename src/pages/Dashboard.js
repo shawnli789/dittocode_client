@@ -21,7 +21,7 @@ import {
 } from "../utils/helper";
 
 function Dashboard(props) {
-  const {getProblems} = useAxiosInstance();
+  const { getProblems } = useAxiosInstance();
   const [problemsLatestPractices, setProblemsLatestPractices] = useState([]);
   const [problemsMap, setProblemsMap] = useState({});
   const [allPractices, setAllPractices] = useState([]);
@@ -55,23 +55,16 @@ function Dashboard(props) {
   const tags = useMemo(() => getProblemNumbersByTag(getTagObjectsByTag(problemsLatestPractices), 7), [problemsLatestPractices]);
   const acedProblemsNumberRecent = useMemo(() => getAcedProblemsNumber(allPractices, problemsMap, 12), [allPractices, problemsMap]);
   const totalDaysFromFirstPractice = useMemo(() => getTotalDaysFromFirstPractice(allPractices), [allPractices]);
-  const acedProblemsNumberAll = useMemo(() => getAcedProblemsNumber(allPractices, problemsMap, totalDaysFromFirstPractice), [allPractices, problemsMap, totalDaysFromFirstPractice]); 
-  
-  // const difficultyPalettes1 = ["#e7ecef", "#274c77", "#6096ba"]
-  // const difficultyPalettes2 = ["#a9ddd6", "#7a8b99", "#91adc2"]
-  //const difficultyPalettes3 = useMemo(() => ["#70d6ff", "#ff70a6", "#ff9770"], []);
-  // const difficultyPalettes4 = ["#2f4858", "#33658a", "#86bbd8"]  
-  const difficultyPalettes3 = useMemo(() => ["#cdeac0", "#ffac81 ", "#6d72c3"], []);
-  
-  // const tagsPalettes1 = ["#ffead0", "#f76f8e", "#96616b", "#37505c", "#113537", "#0fa3b1", "#2e6171"]
-  // const tagsPalettes2 = ["#373F51", "#008dd5", "#dfbbb1", "#ea9094", "#ed858d", "#f07a85", "#f56476"]
-  // const tagsPalettes3 = ["#3f84e5", "#f0e2e7", "#b20d30", "#c17817", "#3f784c", "#87f1ff", "#260c1a"]
-  const tagsPalettes4 = useMemo(() => ["#ffac81", "#ff928b", "#fec3a6", "#efe9ae", "#cdeac0", "#628395", "#6d72c3"], []);
+  const acedProblemsNumberAll = useMemo(() => getAcedProblemsNumber(allPractices, problemsMap, totalDaysFromFirstPractice), [allPractices, problemsMap, totalDaysFromFirstPractice]);
 
-    
+
+  const difficultyPalettes = useMemo(() => ["#cdeac0", "#ffac81 ", "#6d72c3"], []);
+  const tagsPalettes = useMemo(() => ["#ffac81", "#ff928b", "#fec3a6", "#efe9ae", "#cdeac0", "#628395", "#6d72c3"], []);
+
+
   useEffect(() => {
     setDailyPracticesNumberData({
-      labels: dailyPracticesNumber.labels, 
+      labels: dailyPracticesNumber.labels,
       datasets: [
         {
           data: dailyPracticesNumber.values,
@@ -80,35 +73,35 @@ function Dashboard(props) {
     });
 
     setDifficultyData({
-      labels: difficulty.labels, 
+      labels: difficulty.labels,
       datasets: [
         {
           data: difficulty.values,
-          backgroundColor: difficultyPalettes3,
+          backgroundColor: difficultyPalettes,
         }
       ]
     });
 
     setTagsData({
-      labels: tags.labels, 
+      labels: tags.labels,
       datasets: [
         {
           data: tags.values,
-          backgroundColor: tagsPalettes4,
+          backgroundColor: tagsPalettes,
         }
       ]
     });
 
     setAcedProblemsNumberData({
-      labels: acedProblemsNumberRecent.labels, 
+      labels: acedProblemsNumberRecent.labels,
       datasets: [
         {
-          labels: acedProblemsNumberRecent.labels, 
+          labels: acedProblemsNumberRecent.labels,
           data: acedProblemsNumberRecent.values,
           borderColor: "#0275d8"
         },
         {
-          labels: acedProblemsNumberAll.labels, 
+          labels: acedProblemsNumberAll.labels,
           data: acedProblemsNumberAll.values,
           borderColor: "#0275d8",
           hidden: true,
@@ -116,13 +109,13 @@ function Dashboard(props) {
       ]
     });
   }, [dailyPracticesNumber,
-     difficulty, 
-     tags, 
-     acedProblemsNumberRecent, 
-     acedProblemsNumberAll,
-     difficultyPalettes3,
-     tagsPalettes4
-    ])
+    difficulty,
+    tags,
+    acedProblemsNumberRecent,
+    acedProblemsNumberAll,
+    difficultyPalettes,
+    tagsPalettes
+  ])
 
 
 
@@ -134,7 +127,10 @@ function Dashboard(props) {
           Recent
         </button>
       </li>
-      <li className="nav-item" data-toggle="chart" data-target={"#" + acedProblemsChartId} data-trigger="click" data-action="toggle" data-dataset="1">
+      <li className="nav-item" data-toggle="chart" data-target={"#" + acedProblemsChartId} data-trigger="click" data-action="toggle" data-dataset={
+        acedProblemsNumberAll.labels
+          && acedProblemsNumberRecent.labels
+          && acedProblemsNumberAll.labels.length <= acedProblemsNumberRecent.labels.length ? '0' : '1'}>
         <button className="nav-link" data-bs-toggle="tab">
           All
         </button>

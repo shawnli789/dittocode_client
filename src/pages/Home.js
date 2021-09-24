@@ -122,8 +122,8 @@ function Home(props) {
         <Fade left>
           <div className='col-lg-12 col-xl-5 order-lg-last order-xl-first fs-3'>
             <h1>Pomodoro Timer</h1>
-            <p className='text-muted'>A beautiful built in pomodoro style timer that provides a peaceful and immersive environment to conquer some new coding challenges.</p>
-            <p className='text-muted'>It also allows you to always be aware of the time you spent on each problem, which is really important during a real interview.</p>
+            <p className='text-muted'>A built in pomodoro style timer that provides an immersive environment for conquering your next coding challenge.</p>
+            <p className='text-muted'>Prepare yourself for the real interview by pitting your problem solving skills against the clock.</p>
           </div>
         </Fade>
         <Fade right>
@@ -138,7 +138,7 @@ function Home(props) {
       <div>
         <hr style={{ marginTop: '150px' }} />
         <div className="text-center text-dark p-3">
-          © 2021 dittocode.io. 
+          © 2021 dittocode.io.
         </div>
       </div>
 

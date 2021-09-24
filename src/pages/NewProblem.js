@@ -223,6 +223,7 @@ function NewProblem(props) {
                       className={numberClasses}
                       type='text'
                       label='Number'
+                      placeholder='#1'
                       onChange={numberChangedHandler}
                       onBlur={numberBlurHandler}
                       value={enteredNumber}
@@ -401,7 +402,7 @@ const tagsValidationFnc = (tags) => {
   */
   let messages = [];
   if (!tags) {
-    messages.push('Problem tags is required')
+    messages.push('Problem tags are required')
   } else if (tags.length > 300) {
     messages.push('Length must be less than 300 characters')
   }

@@ -117,6 +117,7 @@ function SignUp(props) {
     }).then(function() {
       setIsLoading(false);
     }).catch(function (error) {
+      setIsLoading(false);
       if (error.response) {
         const data = error.response.data;
         if (data["username"]) {

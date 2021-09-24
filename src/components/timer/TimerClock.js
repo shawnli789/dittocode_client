@@ -3,7 +3,6 @@ import 'react-circular-progressbar/dist/styles.css';
 
 
 const red = "#f54e4e";
-const green = "#4aec8c";
 
 function TimerClock(props) {
   return (

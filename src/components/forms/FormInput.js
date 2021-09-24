@@ -17,7 +17,6 @@ function FormInput(props) {
         onChange={props.onChange}
         onBlur={props.onBlur}
         value={props.value} 
-        placeholder={props.placeholder} 
         />
         {errorElements}
     </div>

@@ -147,6 +147,3 @@ function Home(props) {
 }
 
 export default Home;
-
-{/* <div><Link to='sign-in'>Sign In</Link></div>
-<div><Link to='sign-up'>Sign Up</Link></div> */}

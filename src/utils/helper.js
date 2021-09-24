@@ -150,7 +150,7 @@ export const getDailyRecommendation = (practices) => {
   // total days past since Unix Epoch
   const currentDays = Math.floor(new Date().getTime() / oneDay);
   for (const p of practices) {
-    if (!p.completed && Math.floor(convertUTCToLocal(p.created_at).getTime() / oneDay) != currentDays) {
+    if (!p.completed && Math.floor(convertUTCToLocal(p.created_at).getTime() / oneDay) !== currentDays) {
       incompletedPractices.push(p);
     }
   }

@@ -5,7 +5,7 @@ import FormSelectInput from "../components/forms/FormSelectInput";
 import FormTagInput from "../components/forms/FormTagInput";
 import useInputValidation from "../hooks/use-input-validation";
 import { Fragment, useState, useContext } from 'react'
-import { typeOptions, difficultyOptions, completedOptions, timeSpentOptions, tagsOptions } from '../utils/options';
+import { typeOptions, difficultyOptions, tagsOptions } from '../utils/options';
 import useAxiosInstance from "../hooks/use-axios-instance";
 import TimerContext from "../store/timer-context";
 

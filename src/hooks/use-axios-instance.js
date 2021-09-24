@@ -95,7 +95,7 @@ function useAxiosInstance() {
     postProblemValidator: postProblemValidator,
     deleteProblem: deleteProblem,
     postSession: postSession,
-    getUser, getUser,
+    getUser: getUser,
     postUser: postUser,
   }
 }

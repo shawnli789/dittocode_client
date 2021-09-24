@@ -1,4 +1,4 @@
-import { Route } from 'react-router-dom';
+import { Route, Switch } from 'react-router-dom';
 import React, { Fragment, useContext, useState, Suspense } from 'react'
 import AuthContext from './store/auth-context';
 
@@ -21,21 +21,24 @@ function App() {
   return (
     <Fragment>
       <Suspense fallback="">
-        <Route exact path="/dashboard" component={authCtx.isLoggedIn? Dashboard : SignIn} />
-        <Route exact path="/problems" component={authCtx.isLoggedIn? Problems : SignIn} />
-
-        <TimerContext.Provider value={{
-          showTimer,
-          setShowTimer,
-          problemInfo,
-          setProblemInfo
-        }}>
-          <Route exact path="/new-problem" component={authCtx.isLoggedIn? (showTimer ? Timer : NewProblem) : SignIn} />
-        </TimerContext.Provider>
-        <Route exact path="/sign-in" component={authCtx.isLoggedIn? Home : SignIn} />
-        <Route exact path="/sign-up" component={SignUp} />
-        <Route exact path="/" component={authCtx.isLoggedIn? Dashboard : Home} />
-        <Route component={PageNotFound} />
+        <Switch>
+          <Route exact path="/dashboard" component={authCtx.isLoggedIn ? Dashboard : SignIn} />
+          <Route exact path="/problems" component={authCtx.isLoggedIn ? Problems : SignIn} />
+          <Route exact path="/new-problem">
+            <TimerContext.Provider value={{
+              showTimer,
+              setShowTimer,
+              problemInfo,
+              setProblemInfo
+            }}>
+              {authCtx.isLoggedIn ? (showTimer ? <Timer /> : <NewProblem />) : <SignIn />}
+            </TimerContext.Provider>
+          </Route>
+          <Route exact path="/sign-in" component={authCtx.isLoggedIn ? Home : SignIn} />
+          <Route exact path="/sign-up" component={SignUp} />
+          <Route exact path="/" component={authCtx.isLoggedIn ? Dashboard : Home} />
+          <Route path="*" component={PageNotFound} />
+        </Switch>
       </Suspense>
     </Fragment>
   );

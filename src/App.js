@@ -7,6 +7,7 @@ import SignIn from './pages/SignIn';
 
 import SignUp from './pages/SignUp';
 import TimerContext from './store/timer-context';
+import PageNotFound from './pages/PageNotFound';
 
 const Dashboard = React.lazy(() => import('./pages/Dashboard'))
 const NewProblem = React.lazy(() => import('./pages/NewProblem'))
@@ -34,6 +35,7 @@ function App() {
         <Route exact path="/sign-in" component={authCtx.isLoggedIn? Home : SignIn} />
         <Route exact path="/sign-up" component={SignUp} />
         <Route exact path="/" component={authCtx.isLoggedIn? Dashboard : Home} />
+        <Route component={PageNotFound} />
       </Suspense>
     </Fragment>
   );

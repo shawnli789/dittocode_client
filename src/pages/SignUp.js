@@ -1,5 +1,5 @@
-import { Fragment } from 'react'
-import { Link } from 'react-router-dom';
+import { Fragment, useContext } from 'react'
+import { Link, useHistory } from 'react-router-dom';
 import { useState } from 'react';
 
 import FormInput from '../components/forms/FormInput';
@@ -8,11 +8,14 @@ import logoSrc from '../img/logo.png'
 import useInputValidation from '../hooks/use-input-validation'
 import useWindowSize from '../hooks/use-window-size';
 import useAxiosInstance from '../hooks/use-axios-instance';
+import AuthContext from '../store/auth-context';
 
 function SignUp(props) {
   const windowHeight = useWindowSize().height + 'px';
   const [isLoading, setIsLoading] = useState(false);
-  const {postUser} = useAxiosInstance();
+  const {postUser, postSession} = useAxiosInstance();
+  const authCtx = useContext(AuthContext);
+  const history = useHistory();
 
   const {
     value: enteredUsername,
@@ -95,6 +98,24 @@ function SignUp(props) {
       resetEmail();
       resetPassword();
       resetConfirmPassword();
+      postSession({
+        "user_identifier": enteredUsername.trim(),
+        "password": enteredPassword,
+      }).then(function (response) {
+        const jwt_token = response.data.token
+        authCtx.login(jwt_token);
+        setIsLoading(false);
+      }).then(() => {
+        history.replace('/');
+      }).catch(function (error){
+        if (error.response) {
+          alert(error.response);
+        } else {
+          alert(error);
+        }
+      })
+    }).then(function() {
+      setIsLoading(false);
     }).catch(function (error) {
       if (error.response) {
         const data = error.response.data;
@@ -110,8 +131,6 @@ function SignUp(props) {
       } else {
         alert(error)
       }
-    }).then(function() {
-      setIsLoading(false);
     });
   };
 

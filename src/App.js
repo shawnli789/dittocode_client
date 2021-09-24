@@ -20,8 +20,8 @@ function App() {
   return (
     <Fragment>
       <Suspense fallback="">
-        <Route exact path="/dashboard" component={Dashboard} />
-        <Route exact path="/problems" component={Problems} />
+        <Route exact path="/dashboard" component={authCtx.isLoggedIn? Dashboard : SignIn} />
+        <Route exact path="/problems" component={authCtx.isLoggedIn? Problems : SignIn} />
 
         <TimerContext.Provider value={{
           showTimer,
@@ -29,11 +29,11 @@ function App() {
           problemInfo,
           setProblemInfo
         }}>
-          <Route exact path="/new-problem" component={showTimer ? Timer : NewProblem} />
+          <Route exact path="/new-problem" component={authCtx.isLoggedIn? (showTimer ? Timer : NewProblem) : SignIn} />
         </TimerContext.Provider>
-        <Route exact path="/sign-in" component={authCtx.isLoggedIn ? SignIn : SignIn} />
+        <Route exact path="/sign-in" component={authCtx.isLoggedIn? Home : SignIn} />
         <Route exact path="/sign-up" component={SignUp} />
-        <Route exact path="/" component={authCtx.isLoggedIn ? Dashboard : Home} />
+        <Route exact path="/" component={authCtx.isLoggedIn? Dashboard : Home} />
       </Suspense>
     </Fragment>
   );

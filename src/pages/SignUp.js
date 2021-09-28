@@ -94,10 +94,10 @@ function SignUp(props) {
       "email": enteredEmail.trim(),
       "password": enteredPassword,
     }).then(function (response) {
-      resetUsername();
-      resetEmail();
-      resetPassword();
-      resetConfirmPassword();
+      // resetUsername();
+      // resetEmail();
+      // resetPassword();
+      // resetConfirmPassword();
       postSession({
         "user_identifier": enteredUsername.trim(),
         "password": enteredPassword,

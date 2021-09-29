@@ -141,7 +141,6 @@ function Timer(props) {
   const history = useHistory();
 
   const successHandler = () => {
-    console.log(Math.round(secondsLeftRef.current / 60))
     setShowTimeUpModal(false);
     problemInfo = {
       ...problemInfo,

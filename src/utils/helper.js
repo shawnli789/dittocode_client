@@ -147,10 +147,11 @@ export const getDailyRecommendation = (practices) => {
   const incompletedPractices = [];
   const oneDay = 1000 * 60 * 60 * 24;
 
-  // total days past since Unix Epoch
-  const currentDays = Math.floor(new Date().getTime() / oneDay);
+  const currentDate = new Date(new Date().getFullYear(), new Date().getMonth() , new Date().getDate());
   for (const p of practices) {
-    if (!p.completed && Math.floor(convertUTCToLocal(p.created_at).getTime() / oneDay) !== currentDays) {
+    let practiceDate = convertUTCToLocal(p.created_at);
+    practiceDate = new Date(practiceDate.getFullYear(), practiceDate.getMonth() , practiceDate.getDate())
+    if (!p.completed && currentDate.getTime() !== practiceDate.getTime()) {
       incompletedPractices.push(p);
     }
   }
@@ -158,7 +159,7 @@ export const getDailyRecommendation = (practices) => {
   if (incompletedPractices.length <= recommendationNumber) return incompletedPractices;
 
   const primeNumber = 5972718671;
-  const seed = currentDays; 
+  const seed = Math.floor(currentDate.getTime() / oneDay); 
   const A = Math.floor(seedrandom(seed)() * (primeNumber - 1)) + 1;
   const B =  Math.floor(seedrandom(seed)() * primeNumber);
   for (const p of incompletedPractices) {
@@ -184,20 +185,24 @@ export const getDailyPracticesNumber = (practices, numberOfDays) => {
   if (!practices || numberOfDays <= 0) return {};
   const values = Array(numberOfDays).fill(0);
   const labels = Array(numberOfDays).fill('');
-
   const oneDay = 1000 * 60 * 60 * 24;
-  // Since getTime always uses UTC for time representation, we don't need to manually convert it to UTC.
-  // Calculate number of days from Unix Epoch.
-  const currentDays = Math.floor(new Date().getTime() / oneDay);
+
+
+  const currDate = new Date(new Date().getFullYear(), new Date().getMonth() , new Date().getDate());
 
   for (const p of practices) {
     // First convert UTC time to local. 
     // Without this step, new Date(d.created_at) will create a local time with UTC value, which is no what we want.
-    const practiceDate = convertUTCToLocal(p.created_at)
-    // getTime() will convert the current time to UTC and then calculate. 
-    const practiceDays = Math.floor(practiceDate.getTime() / oneDay);
-    if (currentDays - practiceDays < numberOfDays) {
-      values[numberOfDays - 1 - (currentDays - practiceDays)] += 1;
+    let practiceDate = convertUTCToLocal(p.created_at)
+    const practiceDateWithoutTime = new Date(practiceDate.getFullYear(), practiceDate.getMonth() , practiceDate.getDate())
+
+    console.log(currDate)
+    console.log(new Date(practiceDate.getFullYear(), practiceDate.getMonth() , practiceDate.getDate() + numberOfDays))
+    console.log(currDate < new Date(practiceDate.getFullYear(), practiceDate.getMonth() , practiceDate.getDate() + numberOfDays))
+    if (currDate < new Date(practiceDate.getFullYear(), practiceDate.getMonth() , practiceDate.getDate() + numberOfDays)) {
+      const diffInDays = Math.round((currDate.getTime() - practiceDateWithoutTime.getTime()) / oneDay);
+      console.log(diffInDays)
+      values[numberOfDays - 1 - diffInDays] += 1;
     }
   }
 
@@ -329,16 +334,14 @@ export const getTagObjectsByTag = (problemsLatestPractices) => {
 export const getAcedProblemsNumber = (practices, problemsMap, numberOfDays) => {
   if (!practices || numberOfDays <= 0 || !problemsMap.keys) return {};
 
-  const oneDay = 1000 * 60 * 60 * 24;
-  // total days past since Unix Epoch
-  const currentDays = Math.floor(new Date().getTime() / oneDay);
-  const startingDays = currentDays - numberOfDays + 1;
+  const startingDate = new Date(new Date().getFullYear(), new Date().getMonth() , new Date().getDate() - 11);
 
-  // Get total number of solved problems on the starting day.
+
+  // Get total number of solved problems on starting date.
   let sum = 0;
   for (let key of problemsMap.keys()) {
     const practices = problemsMap.get(key);
-    const latestPractice = findLatestPracticeBeforeDate(practices, startingDays)
+    const latestPractice = findLatestPracticeBeforeDate(practices, startingDate)
     if (latestPractice != null && latestPractice.completed) {
       sum++;
     }
@@ -350,8 +353,8 @@ export const getAcedProblemsNumber = (practices, problemsMap, numberOfDays) => {
   for (let i = 0; i < numberOfDays; i++) {
     for (let key of problemsMap.keys()) {
       const practices = problemsMap.get(key);
-      const latestPraticeBeforeDate = findLatestPracticeBeforeDate(practices, startingDays + i);
-      const latestPracticeOnDate = findLatestPracticeOnDate(practices, startingDays + i)
+      const latestPraticeBeforeDate = findLatestPracticeBeforeDate(practices, new Date(startingDate.getFullYear(), startingDate.getMonth() , startingDate.getDate() + i));
+      const latestPracticeOnDate = findLatestPracticeOnDate(practices, new Date(startingDate.getFullYear(), startingDate.getMonth() , startingDate.getDate() + i))
       if (latestPraticeBeforeDate != null) {
         if (!latestPraticeBeforeDate.completed) {
           if (latestPracticeOnDate != null && latestPracticeOnDate.completed) {
@@ -393,14 +396,14 @@ export const getAcedProblemsNumber = (practices, problemsMap, numberOfDays) => {
 
 
 // Find the latest practice of a problem before a specific date.
-const findLatestPracticeBeforeDate = (practices, daysToUnix) => {
+const findLatestPracticeBeforeDate = (practices, date) => {
   if (!practices) return null;
-  const oneDay = 1000 * 60 * 60 * 24;
   let res = null;
   let latestTime = 0;
   for (const p of practices) {
-    const practiceDate = convertUTCToLocal(p.created_at);
-    if (Math.floor(practiceDate.getTime() / oneDay) < daysToUnix) {
+    let practiceDate = convertUTCToLocal(p.created_at);
+    const practiceDateWithoutTime = new Date(practiceDate.getFullYear(), practiceDate.getMonth() , practiceDate.getDate())
+    if (practiceDateWithoutTime.getTime() < date.getTime()) {
       const time = practiceDate.getTime();
       if (time > latestTime) {
         res = p;
@@ -413,14 +416,15 @@ const findLatestPracticeBeforeDate = (practices, daysToUnix) => {
 
 
 // Find the latest practice of a problem on a specific date.
-const findLatestPracticeOnDate = (practices, daysToUnix) => {
+const findLatestPracticeOnDate = (practices, date) => {
   if (!practices) return null;
-  const oneDay = 1000 * 60 * 60 * 24;
   let res = null;
   let latestTime = 0;
   for (const p of practices) {
-    if (Math.floor(convertUTCToLocal(p.created_at).getTime() / oneDay) === daysToUnix) {
-      const time = new Date(p.created_at).getTime();
+    let practiceDate = convertUTCToLocal(p.created_at);
+    const practiceDateWithoutTime = new Date(practiceDate.getFullYear(), practiceDate.getMonth() , practiceDate.getDate())
+    if (practiceDateWithoutTime.getTime() === date.getTime()) {
+      const time = practiceDate.getTime();
       if (time > latestTime) {
         res = p;
         latestTime = time;

@@ -25,7 +25,7 @@ function SignUp(props) {
     inputBlurHandler: usernameBlurHandler,
     submitHandler: usernameSubmitHandler,
     displayMessages: displayUsernameMessages,
-    reset: resetUsername
+    // reset: resetUsername
   } = useInputValidation(usernameValidationFnc)
 
   const {
@@ -36,7 +36,7 @@ function SignUp(props) {
     inputBlurHandler: emailBlurHandler,
     submitHandler: emailSubmitHandler,
     displayMessages: displayEmailMessages,
-    reset: resetEmail
+    // reset: resetEmail
   } = useInputValidation(emailValidationFnc)
 
   const {
@@ -47,7 +47,7 @@ function SignUp(props) {
     inputBlurHandler: passwordBlurHandler,
     submitHandler: passwordSubmitHandler,
     displayMessages: displayPasswordMessages,
-    reset: resetPassword
+    // reset: resetPassword
   } = useInputValidation(passwordValidationFnc)
 
   const {
@@ -58,7 +58,7 @@ function SignUp(props) {
     inputBlurHandler: confirmPasswordBlurHandler,
     submitHandler: confirmPasswordSubmitHandler,
     displayMessages: displayConfirmPasswordMessages,
-    reset: resetConfirmPassword
+    // reset: resetConfirmPassword
   } = useInputValidation(confirmPasswordValidationFnc)
 
 

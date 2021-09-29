@@ -8,18 +8,21 @@ import AuthContext from '../../store/auth-context';
 import { useContext } from 'react';
 import useAxiosInstance from '../../hooks/use-axios-instance';
 import { useState, useEffect } from 'react';
+import AdminContext from '../../store/admin-context';
 
 function Navbar() {
   const authCtx = useContext(AuthContext);
   const { getUser } = useAxiosInstance();
   const [user, setUser] = useState('');
+  const adminCtx = useContext(AdminContext)
   useEffect(() => {
     getUser().then((response) => {
-      setUser(response.data.username)
+      setUser(response.data.username);
+      adminCtx.setIsAdmin(response.data.role === 'admin')
     }).catch(function (err) {
       alert(err)
     });
-  }, [getUser])
+  }, [getUser, adminCtx])
 
   return (
     <nav className="navbar navbar-expand-lg navbar-light">
@@ -43,6 +46,7 @@ function Navbar() {
           <ul className="navbar-nav me-lg-auto">
             <NavItem url="/">Dashboard</NavItem>
             <NavItem url="/problems">Problems</NavItem>
+            {adminCtx.isAdmin && <NavItem url="/admin">Admin</NavItem>}
           </ul>
         </div>
       </div>

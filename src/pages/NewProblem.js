@@ -128,7 +128,6 @@ function NewProblem(props) {
   }
 
   const formSubmissionHandler = (event) => {
-    console.log("submit")
     event.preventDefault();
 
     numberSubmitHandler();

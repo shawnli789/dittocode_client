@@ -6,7 +6,6 @@ function PieChart(props) {
   const ref = useRef();
   const legendRef = useRef();
   const { toggleLegend } = useChart();
-  legendRef.current && console.log(legendRef.current.clientHeight)
   useEffect(() => {
     const chart = new Chart(ref.current, {
       type: 'doughnut',

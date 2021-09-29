@@ -8,7 +8,6 @@ import {
   convertUTCToLocal 
 } from '../utils/helper';
 
-console.log(process.env.REACT_APP_API_ENDPOINT)
 function useAxiosInstance() {
   const authCtx = useContext(AuthContext);
   const axiosInstance = useMemo(() => axios.create({
@@ -89,6 +88,15 @@ function useAxiosInstance() {
     }
   }
 
+  const getUsers = useCallback(async () => {
+    try {
+      const response = await axiosInstance.get('/users/');
+      return response;
+    } catch (err) {
+      throw (err)
+    }
+  }, [axiosInstance])
+
   return {
     getProblems: getProblems,
     postProblem: postProblem,
@@ -97,6 +105,7 @@ function useAxiosInstance() {
     postSession: postSession,
     getUser: getUser,
     postUser: postUser,
+    getUsers: getUsers
   }
 }
 

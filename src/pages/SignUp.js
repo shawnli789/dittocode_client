@@ -9,11 +9,12 @@ import useInputValidation from '../hooks/use-input-validation'
 import useWindowSize from '../hooks/use-window-size';
 import useAxiosInstance from '../hooks/use-axios-instance';
 import AuthContext from '../store/auth-context';
+import { Helmet } from 'react-helmet';
 
 function SignUp(props) {
   const windowHeight = useWindowSize().height + 'px';
   const [isLoading, setIsLoading] = useState(false);
-  const {postUser, postSession} = useAxiosInstance();
+  const { postUser, postSession } = useAxiosInstance();
   const authCtx = useContext(AuthContext);
   const history = useHistory();
 
@@ -107,14 +108,14 @@ function SignUp(props) {
         setIsLoading(false);
       }).then(() => {
         history.replace('/');
-      }).catch(function (error){
+      }).catch(function (error) {
         if (error.response) {
           alert(error.response);
         } else {
           alert(error);
         }
       })
-    }).then(function() {
+    }).then(function () {
       setIsLoading(false);
     }).catch(function (error) {
       setIsLoading(false);
@@ -139,11 +140,17 @@ function SignUp(props) {
   const emailClasses = showEmailErrors ? 'form-control is-invalid' : 'form-control';
   const passwordClasses = showPasswordErrors ? 'form-control is-invalid' : 'form-control';
   const confirmPasswordClasses = showConfirmPasswordErrors ? 'form-control is-invalid' : 'form-control';
-  const buttonClasses = isLoading? "btn btn-lg w-100 btn-primary mb-3 invisible" : 'btn btn-lg w-100 btn-primary mb-3';
-  const textClasses = isLoading? "text-center invisible" : 'text-center';
+  const buttonClasses = isLoading ? "btn btn-lg w-100 btn-primary mb-3 invisible" : 'btn btn-lg w-100 btn-primary mb-3';
+  const textClasses = isLoading ? "text-center invisible" : 'text-center';
 
   return (
     <Fragment>
+      <Helmet>
+        <title>Sign Up</title>
+        <meta
+          name="description"
+          content="Sign Up" />
+      </Helmet>
       <div className="d-flex align-items-center bg-auth border-top border-top-2 border-primary" style={{ height: windowHeight }}>
         <div className="container">
 

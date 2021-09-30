@@ -8,6 +8,7 @@ import TableCard from "../components/cards/TableCard";
 import BarChart from "../components/charts/BarChart";
 import PieChart from "../components/charts/PieChart";
 import LineChart from "../components/charts/LineChart";
+import { Helmet } from "react-helmet";
 import {
   getDailyPracticesNumber,
   getProblemNumbersByDifficulty,
@@ -58,7 +59,7 @@ function Dashboard(props) {
   const acedProblemsNumberAll = useMemo(() => getAcedProblemsNumber(allPractices, problemsMap, totalDaysFromFirstPractice), [allPractices, problemsMap, totalDaysFromFirstPractice]);
 
 
-  const difficultyPalettes = useMemo(() => ["#cdeac0", "#ffac81 ", "#6d72c3"], []);
+  const difficultyPalettes = useMemo(() => ["#B1E693", "#FFE194 ", "#FF7878"], []);
   const tagsPalettes = useMemo(() => ["#ffac81", "#ff928b", "#fec3a6", "#efe9ae", "#cdeac0", "#628395", "#6d72c3"], []);
 
 
@@ -139,6 +140,12 @@ function Dashboard(props) {
 
   return (
     <Fragment>
+      <Helmet>
+        <title>Dashboard</title>
+        <meta
+          name="description"
+          content="Analyze and display your historical data in responsive charts" />
+      </Helmet>
       <Navbar />
       <div className="main-content">
         <div className="container">

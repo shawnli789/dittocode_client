@@ -8,6 +8,7 @@ import { Fragment, useState, useContext } from 'react'
 import { typeOptions, difficultyOptions, tagsOptions } from '../utils/options';
 import useAxiosInstance from "../hooks/use-axios-instance";
 import TimerContext from "../store/timer-context";
+import { Helmet } from "react-helmet";
 
 
 function NewProblem(props) {
@@ -199,6 +200,12 @@ function NewProblem(props) {
 
   return (
     <Fragment>
+      <Helmet>
+        <title>New Problem</title>
+        <meta
+          name="description"
+          content="Start a new coding challenge." />
+      </Helmet>
       <Navbar />
       <div className="main-content">
         <div className="container">

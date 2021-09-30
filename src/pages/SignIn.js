@@ -8,13 +8,14 @@ import logoSrc from '../img/logo.png'
 import useInputValidation from '../hooks/use-input-validation'
 import useWindowSize from '../hooks/use-window-size';
 import useAxiosInstance from '../hooks/use-axios-instance';
+import { Helmet } from 'react-helmet';
 
 
 function SignIn(props) {
   const windowHeight = useWindowSize().height + 'px';
   const [isLoading, setIsLoading] = useState(false);
   const authCtx = useContext(AuthContext);
-  const {postSession} = useAxiosInstance();
+  const { postSession } = useAxiosInstance();
   const history = useHistory();
 
   const {
@@ -92,6 +93,12 @@ function SignIn(props) {
 
   return (
     <Fragment>
+      <Helmet>
+        <title>Sign In</title>
+        <meta
+          name="description"
+          content="Sign In" />
+      </Helmet>
       <div className="d-flex align-items-center bg-auth border-top border-top-2 border-primary" style={{ height: windowHeight }}>
         <div className="container">
 

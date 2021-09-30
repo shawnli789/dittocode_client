@@ -9,6 +9,7 @@ import MockProblemTable from '../components/mock/MockProblemTable';
 import MockBarChart from '../components/mock/MockBarChart';
 import MockLineChart from '../components/mock/MockLineChart';
 import MockPieChart from '../components/mock/MockPieChart';
+import { Helmet } from 'react-helmet';
 
 function Home(props) {
   const slideProperties = {
@@ -24,6 +25,12 @@ function Home(props) {
 
   return (
     <div className="container">
+      <Helmet>
+        <title>DittoCode</title>
+        <meta
+          name="description"
+          content="DittoCode is a simple but powerful tool that helps you organize and visualize your coding progress when preparing for technical interviews." />
+      </Helmet>
       <Fade delay={200}>
         <div className="d-flex mt-5 mx-4 align-items-center">
           <div className="me-auto justify-content-start">

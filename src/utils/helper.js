@@ -196,12 +196,8 @@ export const getDailyPracticesNumber = (practices, numberOfDays) => {
     let practiceDate = convertUTCToLocal(p.created_at)
     const practiceDateWithoutTime = new Date(practiceDate.getFullYear(), practiceDate.getMonth() , practiceDate.getDate())
 
-    console.log(currDate)
-    console.log(new Date(practiceDate.getFullYear(), practiceDate.getMonth() , practiceDate.getDate() + numberOfDays))
-    console.log(currDate < new Date(practiceDate.getFullYear(), practiceDate.getMonth() , practiceDate.getDate() + numberOfDays))
     if (currDate < new Date(practiceDate.getFullYear(), practiceDate.getMonth() , practiceDate.getDate() + numberOfDays)) {
       const diffInDays = Math.round((currDate.getTime() - practiceDateWithoutTime.getTime()) / oneDay);
-      console.log(diffInDays)
       values[numberOfDays - 1 - diffInDays] += 1;
     }
   }

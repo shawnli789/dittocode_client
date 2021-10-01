@@ -10,6 +10,8 @@ import MockBarChart from '../components/mock/MockBarChart';
 import MockLineChart from '../components/mock/MockLineChart';
 import MockPieChart from '../components/mock/MockPieChart';
 import { Helmet } from 'react-helmet';
+import { useState } from 'react';
+import { useEffect } from 'react';
 
 function Home(props) {
   const slideProperties = {
@@ -17,11 +19,17 @@ function Home(props) {
     duration: 4000,
     prevArrow: <span />,
     nextArrow: <span />,
-    pauseOnHover: true
+    pauseOnHover: true,
   }
 
-  const tableHeight = '280px'
-  const chartHeight = '232px'
+  const tableHeight = 280
+  const chartHeight = 232
+  const [pieChartLegendHeight, setPieChartLegendHeight] = useState(0);
+  const [pieChartHeight, setPieChartHeight] = useState(chartHeight);
+  useEffect(() => {
+    setPieChartHeight(chartHeight - 40 - pieChartLegendHeight);
+  }, [pieChartLegendHeight])
+
 
   return (
     <div className="container">
@@ -44,7 +52,7 @@ function Home(props) {
       </Fade>
 
       <Fade delay={200}>
-        <div className='text-center mt-6' style={{ marginLeft: '15%', marginRight: '15%' }}>
+        <div className='text-center mt-6 home-title'>
           <p style={{ fontSize: '2.8em' }}><span className='fw-bold'>Organize</span> and <span className='fw-bold'>Visualize</span> coding practice</p>
           <p className='header-subtitle text-start fs-3'>
             DittoCode is a simple but powerful tool that helps you organize and visualize your coding progress when preparing for technical interviews.
@@ -56,7 +64,7 @@ function Home(props) {
       </Fade>
 
 
-      <div className='row text-center mt-6 mx-6'>
+      <div className='row text-center mt-6 feature-card'>
         <Fade delay={0}>
           <div className='col'>
             <FeatureCard icon='fe fe-globe' color='blue'>
@@ -84,9 +92,9 @@ function Home(props) {
       </div>
       <p className='fw-bold text-center mt-6' style={{ fontSize: '2.8em' }}>Key Features</p>
 
-      <div className='row mt-6 mx-6'>
+      <div className='row mt-6 feature-description'>
         <Fade left>
-          <div className='col-lg-12 col-xl-5 order-lg-last order-xl-first  fs-3'>
+          <div className='col-lg-12 col-xl-5 fs-3'>
             <h1>Organize Practice</h1>
             <p className='text-muted'>A flexible table that coordinates your practice so that you can always keep on top of your goals.</p>
             <p className='text-muted'>The advanced filtering, searching and sorting capabilities will keep all valuable information upfont.</p>
@@ -94,23 +102,23 @@ function Home(props) {
         </Fade>
         <Fade right>
           <div className='col-lg-12 col-xl-7'>
-            <MockProblemTable minHeight={tableHeight} />
+            <MockProblemTable minHeight={tableHeight + "px"} />
           </div>
         </Fade>
       </div>
-      <div className='row mt-6 pt-3 mx-6'>
+      <div className='row mt-6 pt-3 feature-description'>
         <Fade left>
           <div className='col-lg-12 col-xl-7'>
             <div className='slide-container'>
               <Slide {...slideProperties}>
                 <div className='each-slide'>
-                  <MockLineChart height={chartHeight} />
+                  <MockLineChart height={chartHeight + "px"} />
                 </div>
                 <div className='each-slide'>
-                  <MockPieChart height='168px' />
+                  <MockPieChart height={pieChartHeight + "px"} setPieChartLegendHeight={setPieChartLegendHeight}/>
                 </div>
                 <div className='each-slide'>
-                  <MockBarChart height={chartHeight} />
+                  <MockBarChart height={chartHeight + "px"} />
                 </div>
               </Slide>
             </div>
@@ -118,16 +126,16 @@ function Home(props) {
           </div>
         </Fade>
         <Fade right>
-          <div className='col-lg-12 col-xl-5 fs-3'>
+          <div className='col-lg-12 col-xl-5 fs-3 order-first order-md-first order-lg-first order-xl-last'>
             <h1>Visualize Progress</h1>
             <p className='text-muted'>Our real time dashboard will intelligently analyze your historical data to generate daily recommendations and render beautifully responsive charts. </p>
             <p className='text-muted'>From yesterday's practice number to all-year trends, all insights are at your fingertips</p>
           </div>
         </Fade>
       </div>
-      <div className='row mt-6 pt-2 mx-6'>
+      <div className='row mt-6 pt-2 feature-description'>
         <Fade left>
-          <div className='col-lg-12 col-xl-5 order-lg-last order-xl-first fs-3'>
+          <div className='col-lg-12 col-xl-5 fs-3'>
             <h1>Pomodoro Timer</h1>
             <p className='text-muted'>A built in pomodoro style timer that provides an immersive environment for conquering your next coding challenge.</p>
             <p className='text-muted'>Prepare yourself for the real interview by pitting your problem solving skills against the clock.</p>

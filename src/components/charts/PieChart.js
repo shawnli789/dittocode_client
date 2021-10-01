@@ -6,6 +6,7 @@ function PieChart(props) {
   const ref = useRef();
   const legendRef = useRef();
   const { toggleLegend } = useChart();
+  const setPieChartLegendHeight = props.setPieChartLegendHeight;
   useEffect(() => {
     const chart = new Chart(ref.current, {
       type: 'doughnut',
@@ -34,6 +35,14 @@ function PieChart(props) {
     };
   }, [toggleLegend, props.data, props.backgroundColor])
 
+  useEffect(() => {
+    if (setPieChartLegendHeight) setPieChartLegendHeight(legendRef.current.clientHeight)
+    function handleResize() {
+      if (setPieChartLegendHeight) setPieChartLegendHeight(legendRef.current.clientHeight)
+    }
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, [setPieChartLegendHeight]); 
 
   return (
     <div className="card card-fill">

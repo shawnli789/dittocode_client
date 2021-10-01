@@ -11,7 +11,7 @@ function MockPieChart(props) {
       }
     ]
   }
-   return <PieChart title='Difficulty' data = { data } dataTarget="#mockPieChart" legendId="mockPieChart" height={props.height}/>
+   return <PieChart title='Difficulty' data = { data } dataTarget="#mockPieChart" legendId="mockPieChart" height={props.height} setPieChartLegendHeight={props.setPieChartLegendHeight}/>
 }
 
 export default MockPieChart;

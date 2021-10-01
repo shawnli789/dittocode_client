@@ -41,6 +41,7 @@
 
 .navbar-logo {
     position: absolute;
+    top: 19px;
     left: 50%;
     transform: translate(-50%,0);
 }
@@ -199,6 +200,36 @@
     border: none;
 }
 
+.home-title {
+    margin-left: 15%;
+    margin-right: 15%;
+}
+
+@media screen and (max-width: 480px) {
+    .home-title {
+        margin-left: 5%;
+        margin-right: 5%;
+    }
+}
+
+.feature-card {
+    margin-left: 6%;
+    margin-right: 6%;
+}
+
+.feature-description {
+    margin-left: 6%;
+    margin-right: 6%;
+}
+
+@media screen and (max-width: 992px) {
+    .feature-description {
+        margin-left: 2%;
+        margin-right: 2%;
+    }
+}
+
+
 
 
 
@@ -305,3 +336,7 @@
         -o-transform: rotate(25deg);
         transform: rotate(25deg); }
 
+
+
+
+        

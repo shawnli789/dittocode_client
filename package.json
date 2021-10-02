@@ -24,6 +24,7 @@
     "react-slideshow-image": "^3.5.0",
     "react-table": "^7.7.0",
     "react-tooltip": "^4.2.21",
+    "react-windowed-select": "^3.1.2",
     "seedrandom": "^3.0.5",
     "use-sound": "^4.0.1",
     "web-vitals": "^1.1.2"
@@ -51,5 +52,6 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  }
+  },
+  "proxy": "https://leetcode.com/graphql"
 }

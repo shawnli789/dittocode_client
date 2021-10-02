@@ -16,12 +16,18 @@ function Navbar() {
   const [user, setUser] = useState('');
   const adminCtx = useContext(AdminContext)
   useEffect(() => {
+    let isSubscrived = true;
     getUser().then((response) => {
-      setUser(response.data.username);
-      adminCtx.setIsAdmin(response.data.role === 'admin')
+      if (isSubscrived) {
+        setUser(response.data.username);
+        adminCtx.setIsAdmin(response.data.role === 'admin')
+      } 
     }).catch(function (err) {
       alert(err)
     });
+    return function() {
+      isSubscrived = false;
+    }
   }, [getUser, adminCtx])
 
   return (

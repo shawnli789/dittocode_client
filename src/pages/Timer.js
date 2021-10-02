@@ -22,7 +22,7 @@ function Timer(props) {
   const tags = problemInfo.tags.split(',');
   const tagElement = tags.map((t, index) => {
     t = t.trim();
-    return <span key={index} className="badge rounded-pill bg-secondary mx-1">{t}</span>;
+    return <span key={index} className="badge rounded-pill bg-secondary mx-1 blurry">{t}</span>;
   })
   let difficultyColor;
   if (problemInfo.difficulty === 'hard') {
@@ -119,7 +119,7 @@ function Timer(props) {
     if (shouldPlayBellSound) {
       playBell();
     }
-  }, [shouldPlayTickSound, shouldPlayBellSound])
+  }, [shouldPlayTickSound, shouldPlayBellSound, playTick, stop, playBell])
 
 
   const percentage = Math.round(secondsLeft / (totalMinutes * 60) * 100);

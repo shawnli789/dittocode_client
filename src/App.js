@@ -13,6 +13,7 @@ import Admin from './pages/Admin'
 
 const Dashboard = React.lazy(() => import('./pages/Dashboard'))
 const NewProblem = React.lazy(() => import('./pages/NewProblem'))
+const NewCustomProblem = React.lazy(() => import('./pages/NewCustomProblem'))
 const Timer = React.lazy(() => import('./pages/Timer'))
 const Problems = React.lazy(() => import('./pages/Problems'))
 
@@ -39,6 +40,16 @@ function App() {
                 setProblemInfo
               }}>
                 {authCtx.isLoggedIn ? (showTimer ? <Timer /> : <NewProblem />) : <SignIn />}
+              </TimerContext.Provider>
+            </Route>
+            <Route exact path="/new-custom-problem">
+              <TimerContext.Provider value={{
+                showTimer,
+                setShowTimer,
+                problemInfo,
+                setProblemInfo
+              }}>
+                {authCtx.isLoggedIn ? (showTimer ? <Timer /> : <NewCustomProblem />) : <SignIn />}
               </TimerContext.Provider>
             </Route>
             <Route exact path="/sign-in" component={authCtx.isLoggedIn ? Home : SignIn} />

@@ -23,7 +23,7 @@ function NewProblem(props) {
     setIsLoadingOption(true);
     axios({
       method: 'post',
-      url: '/',
+      url: 'https://leetcode.com/graphql',
       headers: { 'Content-Type': 'application/json' },
       data: {
         query:

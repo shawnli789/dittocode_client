@@ -97,6 +97,24 @@ function useAxiosInstance() {
     }
   }, [axiosInstance])
 
+  const getLeetCodeProblems = useCallback(async () => {
+    try {
+      const response = await axiosInstance.get('/leetcode-problems/');
+      return response;
+    } catch (err) {
+      throw (err)
+    }
+  }, [axiosInstance])
+
+  const getLeetCodeProblem = useCallback(async (titleSlug) => {
+    try {
+      const response = await axiosInstance.get('/leetcode-problem/' + titleSlug + '/');
+      return response;
+    } catch (err) {
+      throw (err)
+    }
+  }, [axiosInstance])
+
   return {
     getProblems: getProblems,
     postProblem: postProblem,
@@ -105,7 +123,9 @@ function useAxiosInstance() {
     postSession: postSession,
     getUser: getUser,
     postUser: postUser,
-    getUsers: getUsers
+    getUsers: getUsers,
+    getLeetCodeProblems: getLeetCodeProblems,
+    getLeetCodeProblem: getLeetCodeProblem
   }
 }
 

@@ -5,49 +5,23 @@ import { Fragment, useState, useContext } from 'react'
 import useAxiosInstance from "../hooks/use-axios-instance";
 import TimerContext from "../store/timer-context";
 import { Helmet } from "react-helmet";
-import axios from 'axios';
 import RedirectButton from "../components/buttons/RedirectButton";
 import FormSelectTextInput from "../components/forms/FormSelectTextInput";
 import { useEffect } from "react";
 import { WindowedMenuList } from 'react-windowed-select';
+import { Link } from "react-router-dom";
 
 function NewProblem(props) {
   const [isLoading, setIsLoading] = useState(false);
   const [isLoadingOption, setIsLoadingOption] = useState(false);
   const [titleOptions, setTitleOptions] = useState(null);
-  const { postProblemValidator } = useAxiosInstance();
+  const { postProblemValidator, getLeetCodeProblems, getLeetCodeProblem } = useAxiosInstance();
   const timerCtx = useContext(TimerContext)
 
   useEffect(() => {
     let isSubscribed = true;
     setIsLoadingOption(true);
-    axios({
-      method: 'post',
-      url: 'https://leetcode.com/graphql',
-      headers: { 'Content-Type': 'application/json' },
-      data: {
-        query:
-          `query problemsetQuestionList($categorySlug: String, $limit: Int, $skip: Int, $filters: QuestionListFilterInput) {
-            problemsetQuestionList: questionList(
-              categorySlug: $categorySlug
-              limit: $limit
-              skip: $skip
-              filters: $filters
-            ) {
-              questions: data {
-                title
-                titleSlug
-              }
-            }
-        }`,
-        variables: {
-          "categorySlug": "",
-          "skip": 0,
-          "limit": 10000,
-          "filters": {}
-        }
-      }
-    }).then((result) => {
+    getLeetCodeProblems().then((result) => {
       const questions = result.data.data.problemsetQuestionList.questions;
       const options = questions.map((q) => {
         return {
@@ -79,8 +53,6 @@ function NewProblem(props) {
 
   const titleClasses = showTitleErrors ? 'form-control p-0 is-invalid' : 'form-control p-0';
   const buttonClasses = isLoading ? "btn btn-primary invisible" : 'btn btn-primary';
-
-
   let formIsValid = false;
 
   if (titleErrors.length === 0) {
@@ -95,71 +67,46 @@ function NewProblem(props) {
       return;
     }
     setIsLoading(true);
-    axios({
-      method: 'post',
-      url: '/',
-      headers: { 'Content-Type': 'application/json' },
-      data: {
-        query:
-          `query questionData($titleSlug: String!) {
-        question(titleSlug: $titleSlug) {
-          questionFrontendId
-          title
-          titleSlug
-          difficulty
-          questionDetailUrl
-          categoryTitle
-          topicTags {
-            name
-          }
+    getLeetCodeProblem(enteredTitle.value)
+      .then((result) => {
+        const question = result.data.data.question;
+        if (!question) {
+          displayTitleMessages(["Does not match any problem on Leetcode", "Please check your spelling or try creating a custom problem"]);
+          setIsLoading(false);
+          return;
         }
-      }`,
-        variables: {
-          titleSlug: enteredTitle.value
-        }
-      }
-    }).then((result) => {
-      const question = result.data.data.question;
-      if (!question) {
-        displayTitleMessages(["Does not match any problem on Leetcode", "Please check your spelling or try creating a custom problem"]);
-        setIsLoading(false);
-        return;
-      }
-      postProblemValidator({
-        "title": question.title,
-        "number": question.questionFrontendId,
-        "tags": question.topicTags.map(tag => tag.name).join(', '),
-        "url": "https://leetcode.com" + question.questionDetailUrl,
-        "type": question.categoryTitle,
-        "difficulty": question.difficulty
-      }).then(function () {
-        resetTitle();
-        setIsLoading(false);
-      }).then(function () {
-        const problemInfo = {
+        const metadata = {
           "title": question.title,
           "number": question.questionFrontendId,
           "tags": question.topicTags.map(tag => tag.name).join(', '),
           "url": "https://leetcode.com" + question.questionDetailUrl,
-          "type": question.categoryTitle,
-          "difficulty": question.difficulty
+          "type": question.categoryTitle.toLowerCase(),
+          "difficulty": question.difficulty.toLowerCase()
         }
-        timerCtx.setProblemInfo(problemInfo)
-        timerCtx.setShowTimer(true);
-      }).catch(function (error) {
-        setIsLoading(false);
-        if (error.response) {
-          const data = error.response.data;
-          if (data['title']) {
-            displayTitleMessages(data['title'])
+        postProblemValidator(
+          metadata
+        ).then(function () {
+          resetTitle();
+          setIsLoading(false);
+        }).then(function () {
+          timerCtx.setProblemInfo(metadata)
+          timerCtx.setShowTimer(true);
+        }).catch(function (error) {
+          setIsLoading(false);
+          if (error.response) {
+            const data = error.response.data;
+            if (data['title']) {
+              displayTitleMessages(data['title'])
+            } else {
+              alert(error)
+            }
           } else {
             alert(error)
           }
-        } else {
-          alert(error)
-        }
-      });
-    })
+        });
+      }).catch(function (error) {
+        alert(error)
+      })
   };
 
   const titleStyles = {
@@ -167,6 +114,9 @@ function NewProblem(props) {
       ...provided,
       border: '0px',
       borderRadius: '0.375rem',
+      height: "60px",
+      fontSize: "20px",
+      background: "transparent",
     }),
     placeholder: () => ({
       color: '#B1C2D9',
@@ -211,6 +161,8 @@ function NewProblem(props) {
                     <FormSelectTextInput
                       className={titleClasses}
                       label='Type in a LeetCode Problem Title ...'
+                      labelSize="20px"
+                      labelIsMuted={true}
                       onChange={titleSelectChangedHandler}
                       onBlur={titleBlurHandler}
                       value={enteredTitle}
@@ -220,12 +172,12 @@ function NewProblem(props) {
                       placeholder=""
                       components={titleComponents}
                       isMulti={false}
+                      isClearable
                       isLoading={isLoadingOption}
                     ></FormSelectTextInput>
                   </div>
                 </div>
 
-                <hr className="mt-4 mb-4" />
                 <div className="row justify-content-between">
                   <div className="col-12 col-md-6" />
                   <div className="col-auto">
@@ -235,11 +187,15 @@ function NewProblem(props) {
                   </div>
                 </div>
 
+                <hr className="mt-4 mb-4" />
                 <div className="row justify-content-between mt-5">
                   <div className="col-12 col-md-6" />
                   <div className="col-auto">
-                    <p>Can not find what you want? </p>
-                    <RedirectButton href="/new-custom-problem">Create Custom Problem</RedirectButton>
+                    <p className="text-muted">Can not find what you want? <Link to="/new-custom-problem">
+                        Create Custom Problem
+                      </Link>
+                    </p>
+
                   </div>
                 </div>
 

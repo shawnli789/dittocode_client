@@ -6,8 +6,10 @@ function FormSelectTextInput(props) {
     return <div key={index} className="invalid-feedback d-block">{errorMsg}</div>;
   });
 
+  const labelClass = props.labelIsMuted? "form-group text-muted" : "form-group";
+
   return (
-    <div className="form-group">
+    <div className={labelClass} style={{fontSize: props.labelSize}}>
       <label className='form-label'>{props.label}</label>
       <Creatable {...props} />
       {errorElements}

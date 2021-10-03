@@ -12,7 +12,7 @@ function useAxiosInstance() {
   const authCtx = useContext(AuthContext);
   const axiosInstance = useMemo(() => axios.create({
     baseURL: process.env.REACT_APP_API_ENDPOINT,
-    timeout: 5000,
+    timeout: 8000,
     headers: { 'Authorization': 'Bearer ' + authCtx.token }
   }), [authCtx.token]);
 

@@ -5,7 +5,6 @@ import { Fragment, useState, useContext } from 'react'
 import useAxiosInstance from "../hooks/use-axios-instance";
 import TimerContext from "../store/timer-context";
 import { Helmet } from "react-helmet";
-import RedirectButton from "../components/buttons/RedirectButton";
 import FormSelectTextInput from "../components/forms/FormSelectTextInput";
 import { useEffect } from "react";
 import { WindowedMenuList } from 'react-windowed-select';
@@ -38,7 +37,7 @@ function NewProblem(props) {
     return () => {
       isSubscribed = false;
     }
-  }, [])
+  }, [getLeetCodeProblems])
 
   const {
     value: enteredTitle,

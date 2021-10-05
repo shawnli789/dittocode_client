@@ -149,7 +149,7 @@ function SignUp(props) {
         <title>Sign Up</title>
         <meta
           name="description"
-          content="Sign Up" />
+          content="Advanced table, real time dashboard and built in pomodoro timer provide all in one solution to boost your productivity." />
       </Helmet>
       <div className="d-flex align-items-center bg-auth border-top border-top-2 border-primary" style={{ height: windowHeight }}>
         <div className="container">

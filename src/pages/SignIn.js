@@ -97,7 +97,7 @@ function SignIn(props) {
         <title>Sign In</title>
         <meta
           name="description"
-          content="Sign In" />
+          content="Login to DittoCode to keep track of your progress." />
       </Helmet>
       <div className="d-flex align-items-center bg-auth border-top border-top-2 border-primary" style={{ height: windowHeight }}>
         <div className="container">

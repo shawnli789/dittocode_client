@@ -330,7 +330,7 @@ export const getTagObjectsByTag = (problemsLatestPractices) => {
 export const getAcedProblemsNumber = (practices, problemsMap, numberOfDays) => {
   if (!practices || numberOfDays <= 0 || !problemsMap.keys) return {};
 
-  const startingDate = new Date(new Date().getFullYear(), new Date().getMonth() , new Date().getDate() - numberOfDays);
+  const startingDate = new Date(new Date().getFullYear(), new Date().getMonth() , new Date().getDate() - numberOfDays + 1);
 
   // Get total number of solved problems on starting date.
   let sum = 0;

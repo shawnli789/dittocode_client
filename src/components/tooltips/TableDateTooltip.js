@@ -38,7 +38,6 @@ function TableDateTooltip(props) {
         place="right"
         textColor=''
         backgroundColor=''
-        className='tooltip'
         delayHide={80}
       >
         {tooltip}

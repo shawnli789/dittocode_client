@@ -173,6 +173,7 @@ function NewProblem(props) {
                       isMulti={false}
                       isClearable
                       isLoading={isLoadingOption}
+                      aria-live="off"
                     ></FormSelectTextInput>
                   </div>
                 </div>

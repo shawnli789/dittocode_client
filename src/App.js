@@ -55,7 +55,7 @@ function App() {
             <Route exact path="/sign-in" component={authCtx.isLoggedIn ? Home : SignIn} />
             <Route exact path="/sign-up" component={SignUp} />
             <Route exact path="/admin" component={isAdmin? Admin : PageNotFound} />
-            <Route exact path="/" component={authCtx.isLoggedIn ? Dashboard : Home} />
+            <Route path="/" component={authCtx.isLoggedIn ? Dashboard : Home} />
             <Route path="*" component={PageNotFound} />
           </Switch>
         </AdminContext.Provider>

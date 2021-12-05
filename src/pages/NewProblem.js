@@ -7,8 +7,8 @@ import TimerContext from "../store/timer-context";
 import { Helmet } from "react-helmet";
 import FormSelectTextInput from "../components/forms/FormSelectTextInput";
 import { useEffect } from "react";
-import { WindowedMenuList } from 'react-windowed-select';
 import { Link } from "react-router-dom";
+import { createFilter } from "react-select";
 
 function NewProblem(props) {
   const [isLoading, setIsLoading] = useState(false);
@@ -125,8 +125,7 @@ function NewProblem(props) {
 
   const titleComponents = {
     IndicatorSeparator: null,
-    DropdownIndicator: null,
-    MenuList: WindowedMenuList
+    DropdownIndicator: null
   };
 
   return (
@@ -174,6 +173,7 @@ function NewProblem(props) {
                       isClearable
                       isLoading={isLoadingOption}
                       aria-live="off"
+                      filterOption={createFilter({ ignoreAccents: false })}
                     ></FormSelectTextInput>
                   </div>
                 </div>

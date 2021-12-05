@@ -16,8 +16,8 @@ export const AuthContextProvider = (props) => {
   const userIsLoggedIn = token? true : false;
 
   const logoutHandler = useCallback(() => {
-    setToken(null);
     localStorage.removeItem('jwt_token');
+    setToken(null);
     if (logoutTimer) {
       clearTimeout(logoutTimer);
     }
@@ -26,12 +26,12 @@ export const AuthContextProvider = (props) => {
   const loginHandler = (token) => {
     setToken(token);
     localStorage.setItem('jwt_token', token);
-    logoutTimer = setTimeout(logoutHandler, calculateRemainingTime(token));
+    logoutTimer = setTimeout(logoutHandler, calculateRemainingTime(token) - 20000);
   };
 
   useEffect(() => {
     if (localStorage.getItem('jwt_token')) {
-      logoutTimer = setTimeout(logoutHandler, calculateRemainingTime(token)); 
+      logoutTimer = setTimeout(logoutHandler, calculateRemainingTime(token) - 20000); 
     }
   }, [token, logoutHandler]);
   
